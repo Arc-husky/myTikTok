@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="188dp"
+        android:layout_height="279dp"
+        android:layout_margin="@dimen/text_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintRight_toRightOf="@id/cover"
+        app:layout_constraintBottom_toBottomOf="@id/cover"
+        />
+
+    <ImageView
+        android:id="@+id/love"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintRight_toLeftOf="@id/Number"
+        android:layout_marginRight="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/Number"
+        app:layout_constraintTop_toTopOf="@id/Number"
+        android:src="@mipmap/heart"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
