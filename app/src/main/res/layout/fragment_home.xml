@@ -34,7 +34,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_Layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:background="@drawable/tab_layout_background"
         app:layout_constraintBottom_toTopOf="@+id/view_pager"
         app:layout_constraintEnd_toEndOf="parent"
