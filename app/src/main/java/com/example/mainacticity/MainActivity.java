@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.hide();
         Window window = getWindow();
         changeStatusBarTextColor(window,true);
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -57,4 +54,5 @@ public class MainActivity extends AppCompatActivity {
             decor.setSystemUiVisibility(flags);
         }
     }
+
 }

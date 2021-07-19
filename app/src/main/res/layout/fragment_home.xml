@@ -6,42 +6,81 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@+id/tab_Layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_Layout"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-
-        android:id="@+id/fab"
-        android:layout_width="56dp"
-        android:layout_height="54dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:contentDescription="上传"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="@+id/view_pager"
-        app:layout_constraintEnd_toEndOf="@+id/view_pager" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_Layout"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@drawable/tab_layout_background"
-        app:layout_constraintBottom_toTopOf="@+id/view_pager"
+        android:layout_height="70dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabTextAppearance="@style/TabLayoutStyle"
-        app:tabSelectedTextColor="@color/black"
-        app:tabIndicator="@drawable/layer_tab_indicator"
-        app:tabIndicatorColor="#FFD700"/>
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="这是标题"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            />
+
+    </RelativeLayout>
+
+    <!--内容布局-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/tab_Layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_Layout"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+            android:id="@+id/fab"
+            android:layout_width="56dp"
+            android:layout_height="54dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="上传"
+            android:src="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toBottomOf="@+id/view_pager"
+            app:layout_constraintEnd_toEndOf="@+id/view_pager" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/tab_layout_background"
+            app:layout_constraintBottom_toTopOf="@+id/view_pager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabTextAppearance="@style/TabLayoutStyle"
+            app:tabSelectedTextColor="@color/black"
+            app:tabIndicator="@drawable/layer_tab_indicator"
+            app:tabIndicatorColor="#FFD700"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
