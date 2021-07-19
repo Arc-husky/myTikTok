@@ -17,18 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_Layout"
         />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
 
         android:id="@+id/fab"
         android:layout_width="56dp"
         android:layout_height="54dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="上传"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="@+id/view_pager"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/view_pager" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_Layout"
@@ -40,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabTextAppearance="@style/TabLayoutStyle"
-        app:tabSelectedTextColor="#FFD700"
+        app:tabSelectedTextColor="@color/black"
         app:tabIndicator="@drawable/layer_tab_indicator"
         app:tabIndicatorColor="#FFD700"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
