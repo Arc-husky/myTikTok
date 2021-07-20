@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_corner"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="2dp"
+        android:src="@mipmap/upload" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_toEndOf="@+id/imageView2"
+        android:layout_toRightOf="@+id/imageView2"
+        android:background="@android:color/transparent"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="2dp"
+        android:src="@mipmap/shoot" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/imageView2"
+        android:layout_alignBottom="@id/imageView2"
+        android:layout_toRightOf="@id/imageView2"
+        android:background="@android:color/darker_gray" />
+    <!--    <imageButton-->
+    <!--        android:id="@+id/pop_financial"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="打开文件"-->
+    <!--        app:backgroundTint="#FFEB3B" />-->
+
+</RelativeLayout>

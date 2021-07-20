@@ -65,6 +65,7 @@
             android:layout_marginBottom="20dp"
             android:contentDescription="上传"
             android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="@android:color/holo_orange_light"
             app:layout_constraintBottom_toBottomOf="@+id/view_pager"
             app:layout_constraintEnd_toEndOf="@+id/view_pager" />
 

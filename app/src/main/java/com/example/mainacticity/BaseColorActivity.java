@@ -1,12 +1,12 @@
-package com.example.mainacticity;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.mainacticity.ui.UploadFragment;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BaseColorActivity extends AppCompatActivity {
 
