@@ -1,5 +1,7 @@
 package com.example.mainacticity.placeholder;
 
+import com.example.mainacticity.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +40,7 @@ public class PlaceholderContent {
     }
 
     private static PlaceholderItem createPlaceholderItem(int position) {
-        return new PlaceholderItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        return new PlaceholderItem(String.valueOf(position), R.mipmap.head,"Person " + position, makeDetails(position));
     }
 
     private static String makeDetails(int position) {
@@ -55,11 +57,13 @@ public class PlaceholderContent {
      */
     public static class PlaceholderItem {
         public final String id;
+        public final int head;
         public final String content;
         public final String details;
 
-        public PlaceholderItem(String id, String content, String details) {
+        public PlaceholderItem(String id, int head,String content, String details) {
             this.id = id;
+            this.head = head;
             this.content = content;
             this.details = details;
         }

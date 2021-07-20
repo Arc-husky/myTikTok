@@ -30,6 +30,7 @@ public class MineFragment extends Fragment {
         binding = FragmentMineBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
         return root;
     }
 
