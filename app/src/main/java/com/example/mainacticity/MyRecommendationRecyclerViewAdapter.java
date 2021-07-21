@@ -1,8 +1,11 @@
 package com.example.mainacticity;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mainacticity.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.mainacticity.placeholder.video;
 
@@ -26,6 +32,8 @@ public class MyRecommendationRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     private List<video> mDataset = new ArrayList<>();
     private IOnItemClickListener mItemClickListener;
+    private Fragment mfragment=null;
+    private Context mContext=null;
 
     @Override
     public MyRecommendationRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
@@ -36,7 +44,19 @@ public class MyRecommendationRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     @Override
     public void onBindViewHolder(@NonNull MyRecommendationRecyclerViewAdapter.ViewHolder holder, int position) {
-        holder.onBind(position, mDataset.get(position));
+        video data = mDataset.get(position);
+        if(mfragment!=null) {
+            Glide.with(mfragment)
+                    .load(data.cover)
+                    .into(holder.cover);
+        }else if(mContext!=null){
+            Glide.with(mContext)
+                    .load(data.cover)
+                    .into(holder.cover);
+        }else {
+            holder.cover.setImageResource(R.mipmap.cover);
+        }
+        holder.likeNumber.setText(data.likeNumber);
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,8 +91,16 @@ public class MyRecommendationRecyclerViewAdapter extends RecyclerView.Adapter<My
         void onItemLongCLick(int position, video data);
     }
 
-    public MyRecommendationRecyclerViewAdapter(List<video> myDataset) {
+    public MyRecommendationRecyclerViewAdapter(Fragment fragment,List<video> myDataset) {
         mDataset.addAll(myDataset);
+        mfragment = fragment;
+        mContext = null;
+    }
+
+    public MyRecommendationRecyclerViewAdapter(Context context,List<video> myDataset) {
+        mDataset.addAll(myDataset);
+        mfragment = null;
+        mContext = context;
     }
 
     public void setOnItemClickListener(IOnItemClickListener listener) {
@@ -99,25 +127,23 @@ public class MyRecommendationRecyclerViewAdapter extends RecyclerView.Adapter<My
         }
     }
 
+    public void updateData(List<video> data) {
+        mDataset = data;
+        notifyDataSetChanged();
+    }
 
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView cover;
-        private TextView likeNumber;
-        private View contentView;
-
+        ImageView cover;
+        TextView likeNumber;
+        View contentView;
 
         public ViewHolder(View v) {
             super(v);
             contentView = v;
             cover = v.findViewById(R.id.cover);
             likeNumber = v.findViewById(R.id.Number);
-        }
-
-        public void onBind(int position, video data) {
-            cover.setImageResource(data.cover);
-            likeNumber.setText(data.likeNumber);
         }
 
         public void setOnClickListener(View.OnClickListener listener) {

@@ -10,6 +10,7 @@
         android:layout_width="188dp"
         android:layout_height="279dp"
         android:layout_margin="@dimen/text_margin"
+        android:scaleType="centerCrop"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />

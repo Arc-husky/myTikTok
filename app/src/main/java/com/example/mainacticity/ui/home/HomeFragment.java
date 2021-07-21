@@ -1,5 +1,6 @@
 package com.example.mainacticity.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.mainacticity.MainActivity;
 import com.example.mainacticity.R;
 import com.example.mainacticity.RecommendationFragment;
 import com.example.mainacticity.databinding.FragmentHomeBinding;
+import com.example.mainacticity.placeholder.video;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +30,8 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private int PAGE_COUNT = 2;
     private List<Fragment> mFragmentList = new ArrayList<Fragment>();
+    private String MY_ID;
+    private ArrayList<String> idList = new ArrayList<>();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -78,12 +84,15 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        MY_ID=null;
     }
 
     private void initViews() {
+        RecommendationFragment fragment = RecommendationFragment.newInstance(2,idList);
+        RecommendationFragment fragment1 = RecommendationFragment.newInstance(2,idList);
         //给FragmentList添加数据
-        mFragmentList.add(new RecommendationFragment());
-        mFragmentList.add(new RecommendationFragment());
+        mFragmentList.add(fragment);
+        mFragmentList.add(fragment1);
     }
 
     private void showPopupWindow() {
@@ -112,4 +121,11 @@ public class HomeFragment extends Fragment {
         }
 
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        MY_ID = ((MainActivity)context).getMY_ID();
+    }
+
 }
