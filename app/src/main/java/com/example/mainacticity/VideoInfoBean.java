@@ -2,9 +2,10 @@ package com.example.mainacticity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class VideoInfoBean {
+public class VideoInfoBean implements Serializable {
 
     @SerializedName("_id")
     private String Id;

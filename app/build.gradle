@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.mainacticity"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -44,5 +44,12 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.facebook.fresco:fresco:2.4.0'
+    implementation 'com.facebook.fresco:animated-webp:2.4.0'
+    implementation 'com.facebook.fresco:webpsupport:2.4.0'
+    implementation 'com.shuyu:GSYVideoPlayer:7.1.8'
 }

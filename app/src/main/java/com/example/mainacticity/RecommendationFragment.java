@@ -4,6 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -12,16 +18,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.example.mainacticity.placeholder.PlaceholderContent;
 import com.example.mainacticity.placeholder.TopicSet;
 import com.example.mainacticity.placeholder.video;
+import com.example.mainacticity.ui.video.PlayActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -29,7 +28,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -106,9 +104,10 @@ public class RecommendationFragment extends Fragment {
         myAdapter.setOnItemClickListener(new MyRecommendationRecyclerViewAdapter.IOnItemClickListener() {
             @Override
             public void onItemCLick(int position, video data) {
-//                Intent intent = new Intent(MainActivity.class,PlayActivity.class);
-//                intent.setData(data.uri);
-//                startActivity(intent);
+                Intent intent = new Intent(getParentFragment().getActivity(), PlayingActivity.class);
+                intent.putExtra(PlayActivity.RECYCLERVIEW_VIDEO_INDEX, position);
+                intent.putExtra(PlayActivity.RECYCLERVIEW_VIDEO_LIST, (Serializable) lst);
+                startActivity(intent);
             }
 
             @Override
