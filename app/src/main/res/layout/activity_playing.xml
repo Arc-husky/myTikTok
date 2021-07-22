@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
     <!--    <com.example.mainacticity.widget.FullScreenVideoView-->
     <!--        android:id="@+id/video_view"-->
     <!--        android:layout_width="match_parent"-->
@@ -10,14 +11,7 @@
     <!--        android:clickable="false"-->
     <!--        android:focusable="false"-->
     <!--        />-->
-    <!--    <ImageView-->
-    <!--        android:id="@+id/img_thumb"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:clickable="false"-->
-    <!--        android:focusable="false"-->
-    <!--        android:scaleType="centerCrop"-->
-    <!--        android:visibility="visible" />-->
+
 
     <!--    <ImageView-->
     <!--        android:id="@+id/img_play"-->
@@ -90,10 +84,21 @@
     <!--            android:textColor="@android:color/white" />-->
     <!--    </LinearLayout>-->
 
+    <ImageView
+        android:id="@+id/img_thumb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false"
+        android:scaleType="centerCrop"
+        android:visibility="visible" />
+
     <VideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="false"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:focusable="false" />
 </RelativeLayout>

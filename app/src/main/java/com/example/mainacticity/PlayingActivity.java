@@ -1,16 +1,21 @@
 package com.example.mainacticity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mainacticity.ui.video.OnViewPagerListener;
 import com.example.mainacticity.ui.video.ViewPagerLayoutManager;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -32,6 +39,7 @@ public class PlayingActivity extends AppCompatActivity {
     private ViewPagerLayoutManager mLayoutManager;
     private List<VideoInfoBean> videos;
     private int index_v;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +98,7 @@ public class PlayingActivity extends AppCompatActivity {
         View itemView = mRecyclerView.getChildAt(0);
         final VideoView videoView = itemView.findViewById(R.id.video_view);
 //        final ImageView imgPlay = itemView.findViewById(R.id.img_play);
-//        final ImageView imgThumb = itemView.findViewById(R.id.img_thumb);
+        final ImageView imgThumb = itemView.findViewById(R.id.img_thumb);
         final RelativeLayout rootView = itemView.findViewById(R.id.root_view);
         final MediaPlayer[] mediaPlayer = new MediaPlayer[1];
         videoView.start();
@@ -99,7 +107,7 @@ public class PlayingActivity extends AppCompatActivity {
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 mediaPlayer[0] = mp;
                 mp.setLooping(true);
-//                imgThumb.animate().alpha(0).setDuration(200).start();
+                imgThumb.animate().alpha(0).setDuration(200).start();
                 return false;
             }
         });
@@ -131,13 +139,23 @@ public class PlayingActivity extends AppCompatActivity {
     private void releaseVideo(int index) {
         View itemView = mRecyclerView.getChildAt(index);
         final VideoView videoView = itemView.findViewById(R.id.video_view);
-        //final ImageView imgThumb = itemView.findViewById(R.id.img_thumb);
+        final ImageView imgThumb = itemView.findViewById(R.id.img_thumb);
         //final ImageView imgPlay = itemView.findViewById(R.id.img_play);
         videoView.stopPlayback();
-        //imgThumb.animate().alpha(1).start();
+        imgThumb.animate().alpha(1).start();
         //imgPlay.animate().alpha(0f).start();
     }
 
+    private Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            System.out.println("Exc=" + e);
+            return null;
+        }
+    }
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         //private int[] imgs = {R.mipmap.img_video_1,R.mipmap.img_video_2};
@@ -155,7 +173,13 @@ public class PlayingActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            //holder.img_thumb.setImageResource(imgs[position%2]);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    holder.drawable = LoadImageFromWebOperations(videos.get(((index_v) + position + (videos.size())) % videos.size()).getImageUrl());
+                    holder.mHandler.sendEmptyMessage(100);
+                }
+            }).start();
             holder.videoView.setVideoURI(Uri.parse(videos.get(((index_v) + position + (videos.size())) % videos.size()).getVideoUrl()));
         }
 
@@ -165,14 +189,25 @@ public class PlayingActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            //ImageView img_thumb;
+            ImageView img_thumb;
             VideoView videoView;
             //ImageView img_play;
+            Drawable drawable;
             RelativeLayout rootView;
+            private Handler mHandler = new Handler() {
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    super.handleMessage(msg);
+                    switch (msg.what) {
+                        case 100:
+                            img_thumb.setImageDrawable(drawable);
+                    }
+                }
+            };
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                //img_thumb = itemView.findViewById(R.id.img_thumb);
+                img_thumb = itemView.findViewById(R.id.img_thumb);
                 videoView = itemView.findViewById(R.id.video_view);
                 //img_play = itemView.findViewById(R.id.img_play);
                 rootView = itemView.findViewById(R.id.root_view);
