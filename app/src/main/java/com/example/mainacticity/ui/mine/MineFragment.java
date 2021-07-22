@@ -18,9 +18,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mainacticity.MainActivity;
+import com.example.mainacticity.My_ImageViewPlus;
 import com.example.mainacticity.PersonalPage;
 import com.example.mainacticity.R;
 import com.example.mainacticity.databinding.FragmentMineBinding;
+import com.example.mainacticity.loginActivity;
 
 public class MineFragment extends Fragment {
 
@@ -37,7 +39,14 @@ public class MineFragment extends Fragment {
         ImageButton personalbtn = root.findViewById(R.id.personalbtn);
         TextView idView = root.findViewById(R.id.userId);
         idView.setText(TEXT_BEGIN+MY_ID);
-
+        My_ImageViewPlus head = root.findViewById(R.id.head2);
+        head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), loginActivity.class);
+                startActivityForResult(intent,1);
+            }
+        });
         personalbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

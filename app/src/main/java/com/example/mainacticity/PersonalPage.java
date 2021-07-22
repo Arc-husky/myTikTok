@@ -56,9 +56,10 @@ public class PersonalPage extends AppCompatActivity {
                 finish();
             }
         });
+
         videoList = new ArrayList<>();
         RecyclerView recyclerView = findViewById(R.id.rec);
-        myAdapter = new MyRecommendationRecyclerViewAdapter(this, new ArrayList<>());
+        myAdapter = new MyRecommendationRecyclerViewAdapter(this,new ArrayList<>());
         myAdapter.setOnItemClickListener(new MyRecommendationRecyclerViewAdapter.IOnItemClickListener() {
             @Override
             public void onItemCLick(int position, video data) {
@@ -93,7 +94,6 @@ public class PersonalPage extends AppCompatActivity {
             public void run() {
                 List<VideoInfoBean> messages = GetMessageFromRemote(studentIds);
                 if(messages !=null) {
-                    videoList.addAll(messages);
                     new Handler(getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {

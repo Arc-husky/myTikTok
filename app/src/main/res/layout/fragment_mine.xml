@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         >
         <com.example.mainacticity.My_ImageViewPlus
-            android:id="@+id/head"
+            android:id="@+id/head2"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@mipmap/head"
@@ -72,14 +72,14 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/head"
-            android:layout_alignTop="@id/head"
+            android:layout_toRightOf="@id/head2"
+            android:layout_alignTop="@id/head2"
             android:layout_marginLeft="20dp"
             android:text="这里是用户名"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:layout_toEndOf="@id/head"
+            android:layout_toEndOf="@id/head2"
             android:layout_marginStart="20dp" />
         <TextView
             android:id="@+id/userId"

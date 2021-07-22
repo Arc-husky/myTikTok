@@ -28,9 +28,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private String MY_ID = "3190101936";
+    private String MY_ID = null;
     public static final String ID_SAVED = "id_saved";
-    private final String MY_ID_SAVE_KEY = "my-id";
+    public static final String MY_ID_SAVE_KEY = "my-id";
     private List<video> videoList = new ArrayList<>();
     public final static String MY_GZ_LIST = "gz-list";
     public final static String MY_GZ_LIST_SIZE = "gz-Size";
