@@ -6,6 +6,6 @@ public class Topic {
 
     public Topic(int cover, String topic) {
         this.cover = cover;
-        this.topic = "#"+topic;
+        this.topic = topic;
     }
 }
