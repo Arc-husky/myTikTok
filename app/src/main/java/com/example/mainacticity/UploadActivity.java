@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.mainacticity.model.UploadResponse;
 
 import java.io.File;
@@ -53,6 +54,8 @@ public class UploadActivity extends AppCompatActivity {
     private Drawable coverSD;
     private ImageButton button;
     private String absolute_Path;
+    private static final String MY_ID_SAVE_KEY = "my-id";
+    private String MY_ID;
 
     public static Uri getUriForFile(Context context, String path) {
         if (Build.VERSION.SDK_INT >= 24) {
@@ -69,14 +72,17 @@ public class UploadActivity extends AppCompatActivity {
         Intent intent = getIntent();
         button = findViewById(R.id.chooseImage);
         String str = intent.getStringExtra(VIDEO_OUTER_PATH);
+        MY_ID = intent.getStringExtra(MY_ID_SAVE_KEY);
         if (str != null) {
             absolute_Path = intent.getStringExtra(VIDEO_OUTER_PATH);
             videoUri = getUriForFile(this, absolute_Path);
-            8
+
             coverImageUri = getUriForFile(CoverCapture.getCover(this, absolute_Path, getOutputMediaPath()));
-//            coverSD = LoadImageFromWebOperations(CoverCapture.getCover(absolute_Path));
-//            button.setImageDrawable(coverSD);
+
+            Glide.with(this).load(coverImageUri).into(button);
+//            button.setImageBitmap();
         }
+        initNetwork();
         findViewById(R.id.chooseImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +129,7 @@ public class UploadActivity extends AppCompatActivity {
         } else if (REQUEST_CODE_COVER_IMAGE == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
                 coverImageUri = data.getData();
-
+                Glide.with(this).load(coverImageUri).into(button);
                 if (coverImageUri != null) {
 //                    coverSD = LoadImageFromWebOperations(coverImageUri.toString());
 //                    button.setImageDrawable(coverSD);
@@ -196,17 +202,15 @@ public class UploadActivity extends AppCompatActivity {
         }
         MultipartBody.Part video = MultipartBody.Part.createFormData("video", "upload.mp4", RequestBody.create(MediaType.parse("multipart/from_data"), videoData));
         MultipartBody.Part cover_image = MultipartBody.Part.createFormData("cover_image", "cover.png", RequestBody.create(MediaType.parse("multipart/form_data"), coverImageData));
-        Call<UploadResponse> call = api.submitVideo(Constants.STUDENT_ID, Constants.USER_NAME, "", cover_image, video, Constants.token);
+        Call<UploadResponse> call = api.submitVideo(MY_ID, Constants.USER_NAME, "", cover_image, video, Constants.token);
         call.enqueue(new Callback<UploadResponse>() {
             @Override
             public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getBaseContext(), "upload failed", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getBaseContext(), "upload succeeded", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(getBaseContext(), "upload succeeded", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "Upload succeeded");
                     finish();
-                }
+
             }
 
             @Override

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,23 +17,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
-import androidx.annotation.RequiresApi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mainacticity.model.VideoInfoBean;
-import com.example.mainacticity.placeholder.video;
 import com.example.mainacticity.ui.video.OnViewPagerListener;
 import com.example.mainacticity.ui.video.ViewPagerLayoutManager;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ViewPagerLayoutManager
@@ -198,13 +193,13 @@ public class PlayingActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    now_index = ((index_v) + position + (videos.size())) % videos.size();
                     holder.drawable = LoadImageFromWebOperations(videos.get(((index_v) + position + (videos.size())) % videos.size()).getImageUrl());
                     holder.mHandler.sendEmptyMessage(100);
                 }
             }).start();
+            now_index = ((index_v) + position + (videos.size())) % videos.size();
             SharedPreferences sp = getSharedPreferences(MainActivity.ID_SAVED, MODE_PRIVATE);
-            VideoInfoBean vinfo = videos.get(position);
+            VideoInfoBean vinfo = videos.get(now_index);
             if(gzids.containsKey(vinfo.getStudentId())) {
                 holder.gzbtn.setImageResource(R.mipmap.ygzbtn);
                 holder.ygz = true;

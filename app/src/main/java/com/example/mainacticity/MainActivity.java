@@ -1,43 +1,28 @@
 package com.example.mainacticity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.mainacticity.databinding.ActivityMainBinding;
 import com.example.mainacticity.placeholder.video;
-import com.example.mainacticity.ui.mine.MineFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -82,14 +67,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         SharedPreferences sp = MainActivity.this.getSharedPreferences(ID_SAVED, MODE_PRIVATE);
-        MY_ID = sp.getString(MY_ID_SAVE_KEY,"3190101936");
+        MY_ID = sp.getString(MY_ID_SAVE_KEY, null);
 //        mHandler.sendEmptyMessage(100);
         Window window = getWindow();
-        changeStatusBarTextColor(window,true);
+        changeStatusBarTextColor(window, true);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_upload);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        if (MY_ID == null) {
+            Intent intent = new Intent(MainActivity.this, loginActivity.class);
+            startActivityForResult(intent, 101);
+        }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (101 == requestCode) {
+            if (resultCode == Activity.RESULT_OK) {
+                MY_ID = data.getStringExtra(MY_ID_SAVE_KEY);
+            }
+        }
     }
 
     @Override

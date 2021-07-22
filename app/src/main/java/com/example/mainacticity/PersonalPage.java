@@ -36,7 +36,7 @@ public class PersonalPage extends AppCompatActivity {
     public static final String PERSON_ID = "person-id";
     private String MY_ID = "";
     private final String TEXT_BEGIN = "ID:";
-    private List<video> videoList;
+    private List<VideoInfoBean> videoList;
     private MyRecommendationRecyclerViewAdapter myAdapter;
 
     @Override
@@ -58,7 +58,7 @@ public class PersonalPage extends AppCompatActivity {
         });
         videoList = new ArrayList<>();
         RecyclerView recyclerView = findViewById(R.id.rec);
-        myAdapter = new MyRecommendationRecyclerViewAdapter(this,videoList);
+        myAdapter = new MyRecommendationRecyclerViewAdapter(this, new ArrayList<>());
         myAdapter.setOnItemClickListener(new MyRecommendationRecyclerViewAdapter.IOnItemClickListener() {
             @Override
             public void onItemCLick(int position, video data) {
@@ -66,7 +66,7 @@ public class PersonalPage extends AppCompatActivity {
                 intent = new Intent(PersonalPage.this, PlayingActivity.class);
                 intent.putExtra(PlayingActivity.RECYCLERVIEW_VIDEO_INDEX, position);
                 intent.putExtra(PlayingActivity.RECYCLERVIEW_VIDEO_LIST, (Serializable) videoList);
-                intent.putExtra(PlayingActivity.MY_ID_SAVE_KEY,MY_ID);
+                intent.putExtra(PlayingActivity.MY_ID_SAVE_KEY, MY_ID);
                 startActivity(intent);
             }
 
@@ -93,12 +93,13 @@ public class PersonalPage extends AppCompatActivity {
             public void run() {
                 List<VideoInfoBean> messages = GetMessageFromRemote(studentIds);
                 if(messages !=null) {
+                    videoList.addAll(messages);
                     new Handler(getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            for(int i = 0;i<messages.size();i++) {
+                            for (int i = 0; i < messages.size(); i++) {
                                 VideoInfoBean data = messages.get(i);
-                                myAdapter.addData(myAdapter.getItemCount(),new video(data.getStudentId(),
+                                myAdapter.addData(myAdapter.getItemCount(), new video(data.getStudentId(),
                                         data.getUserName(),
                                         data.getImageUrl(),
                                         data.getVideoUrl(),
