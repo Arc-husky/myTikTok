@@ -42,16 +42,25 @@ public class MyRecommendationRecyclerViewAdapter extends RecyclerView.Adapter<My
                 .inflate(R.layout.fragment_video, parent, false));
     }
 
+    public static int dip2px(Context context,float dpValue){
+        final float scale=context.getResources().getDisplayMetrics().density;
+        return(int)(dpValue*scale+0.5f);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MyRecommendationRecyclerViewAdapter.ViewHolder holder, int position) {
         video data = mDataset.get(position);
         if(mfragment!=null) {
+            CornerTransform transformation = new CornerTransform(mfragment.getContext(), dip2px(mfragment.getContext(), 10));
             Glide.with(mfragment)
                     .load(data.cover)
+                    .transform(transformation)
                     .into(holder.cover);
         }else if(mContext!=null){
+            CornerTransform transformation = new CornerTransform(mContext, dip2px(mContext, 10));
             Glide.with(mContext)
                     .load(data.cover)
+                    .transform(transformation)
                     .into(holder.cover);
         }else {
             holder.cover.setImageResource(R.mipmap.cover);

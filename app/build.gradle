@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -52,4 +53,5 @@ dependencies {
     implementation 'com.facebook.fresco:animated-webp:2.4.0'
     implementation 'com.facebook.fresco:webpsupport:2.4.0'
     implementation 'com.shuyu:GSYVideoPlayer:7.1.8'
+
 }

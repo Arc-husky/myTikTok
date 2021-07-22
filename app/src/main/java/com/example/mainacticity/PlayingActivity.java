@@ -1,9 +1,11 @@
 package com.example.mainacticity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,22 +13,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
+import androidx.annotation.RequiresApi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mainacticity.model.VideoInfoBean;
+import com.example.mainacticity.placeholder.video;
 import com.example.mainacticity.ui.video.OnViewPagerListener;
 import com.example.mainacticity.ui.video.ViewPagerLayoutManager;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ViewPagerLayoutManager
@@ -34,14 +42,15 @@ import java.util.List;
 public class PlayingActivity extends AppCompatActivity {
     public final static String RECYCLERVIEW_VIDEO_LIST = "videos";
     public final static String RECYCLERVIEW_VIDEO_INDEX = "index";
+    public final static String MY_ID_SAVE_KEY = "my-id";
     private static final String TAG = "ViewPagerActivity";
     private RecyclerView mRecyclerView;
     private MyAdapter mAdapter;
     private ViewPagerLayoutManager mLayoutManager;
     private List<VideoInfoBean> videos;
+    private String myid;
     private int index_v;
-
-
+    private HashMap<String,Object> gzids = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +59,18 @@ public class PlayingActivity extends AppCompatActivity {
         initView();
 
         initListener();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences sp = getSharedPreferences(MainActivity.ID_SAVED, MODE_PRIVATE);
+                int size=sp.getInt(MainActivity.MY_GZ_LIST_SIZE+myid,0);
+                for(int i=0;i<size;i++) {
+                    String key = sp.getString(MainActivity.MY_GZ_LIST+myid+i,null);
+                    if(key!=null)
+                        gzids.put(key,1);
+                }
+            }
+        }).start();
     }
 
     private void initView() {
@@ -57,7 +78,7 @@ public class PlayingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         videos = (List<VideoInfoBean>) intent.getSerializableExtra(RECYCLERVIEW_VIDEO_LIST);
         index_v = intent.getIntExtra(RECYCLERVIEW_VIDEO_INDEX, 0);
-
+        myid = intent.getStringExtra(MY_ID_SAVE_KEY);
         mLayoutManager = new ViewPagerLayoutManager(this, OrientationHelper.VERTICAL);
         mAdapter = new MyAdapter();
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -161,7 +182,7 @@ public class PlayingActivity extends AppCompatActivity {
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         //private int[] imgs = {R.mipmap.img_video_1,R.mipmap.img_video_2};
         //videos = {R.raw.video_1,R.raw.video_2};
-
+        private int now_index;
         public MyAdapter() {
         }
 
@@ -177,10 +198,59 @@ public class PlayingActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    now_index = ((index_v) + position + (videos.size())) % videos.size();
                     holder.drawable = LoadImageFromWebOperations(videos.get(((index_v) + position + (videos.size())) % videos.size()).getImageUrl());
                     holder.mHandler.sendEmptyMessage(100);
                 }
             }).start();
+            SharedPreferences sp = getSharedPreferences(MainActivity.ID_SAVED, MODE_PRIVATE);
+            VideoInfoBean vinfo = videos.get(position);
+            if(gzids.containsKey(vinfo.getStudentId())) {
+                holder.gzbtn.setImageResource(R.mipmap.ygzbtn);
+                holder.ygz = true;
+            }
+            holder.gzbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!holder.ygz) {
+                        gzids.put(vinfo.getStudentId(),1);
+                        holder.gzbtn.setImageResource(R.mipmap.ygzbtn);
+                        int size = sp.getInt(MainActivity.MY_GZ_LIST_SIZE + myid, 0);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putInt(MainActivity.MY_GZ_LIST_SIZE + myid, size + 1);
+                        editor.putString(MainActivity.MY_GZ_LIST + myid + size, vinfo.getStudentId());
+                        editor.apply();
+                    }else {
+                        gzids.remove(vinfo.getStudentId());
+                        holder.gzbtn.setImageResource(R.mipmap.gzbtn);
+                        int size = sp.getInt(MainActivity.MY_GZ_LIST_SIZE + myid, 0);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putInt(MainActivity.MY_GZ_LIST_SIZE + myid, size - 1);
+                        editor.remove(MainActivity.MY_GZ_LIST + myid + size);
+                        editor.apply();
+                    }
+                    holder.ygz = !holder.ygz;
+                }
+            });
+            holder.Personalbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PlayingActivity.this, PersonalPage.class);
+                    intent.putExtra(PersonalPage.PERSON_ID,vinfo.getStudentId());
+                    startActivity(intent);
+                }
+            });
+            holder.dzbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(holder.ydz) {
+                        holder.dzbtn.setImageResource(R.mipmap.ydz);
+                    }else {
+                        holder.dzbtn.setImageResource(R.mipmap.dz);
+                    }
+                    holder.ydz = !holder.ydz;
+                }
+            });
             holder.videoView.setVideoURI(Uri.parse(videos.get(((index_v) + position + (videos.size())) % videos.size()).getVideoUrl()));
         }
 
@@ -195,6 +265,9 @@ public class PlayingActivity extends AppCompatActivity {
             //ImageView img_play;
             Drawable drawable;
             RelativeLayout rootView;
+            ImageButton gzbtn,dzbtn;
+            My_ImageViewPlus Personalbtn;
+            boolean ygz = false,ydz=false;
             private Handler mHandler = new Handler() {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
@@ -202,6 +275,7 @@ public class PlayingActivity extends AppCompatActivity {
                     switch (msg.what) {
                         case 100:
                             img_thumb.setImageDrawable(drawable);
+
                     }
                 }
             };
@@ -212,6 +286,9 @@ public class PlayingActivity extends AppCompatActivity {
                 videoView = itemView.findViewById(R.id.video_view);
                 //img_play = itemView.findViewById(R.id.img_play);
                 rootView = itemView.findViewById(R.id.root_view);
+                gzbtn = itemView.findViewById(R.id.gzbtn);
+                Personalbtn = itemView.findViewById(R.id.zztx);
+                dzbtn = itemView.findViewById(R.id.dzbtn);
             }
         }
     }

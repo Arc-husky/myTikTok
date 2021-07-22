@@ -47,10 +47,12 @@ public class RecommendationFragment extends Fragment {
     private int mColumnCount = 2;
     private MyRecommendationRecyclerViewAdapter myAdapter;
     public static final String RECYCLERVIEW_DATA_LIST = "data-list";
+    public static final String RECYCLERVIEW_MY_ID = "my-id";
     private Context mContext;
     private ArrayList<String> ids;
     private Thread myThread;
-    private List<VideoInfoBean> lst;
+    private String myid;
+    private List<VideoInfoBean> lst = new ArrayList<>();
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -77,11 +79,12 @@ public class RecommendationFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static RecommendationFragment newInstance(int columnCount, ArrayList<String> ids) {
+    public static RecommendationFragment newInstance(int columnCount, ArrayList<String> ids,String myid) {
         RecommendationFragment fragment = new RecommendationFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
-        args.putStringArrayList(RECYCLERVIEW_DATA_LIST,ids);
+        if(ids!=null) args.putStringArrayList(RECYCLERVIEW_DATA_LIST,ids);
+        args.putString(RECYCLERVIEW_MY_ID,myid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,6 +96,7 @@ public class RecommendationFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
             ids = getArguments().getStringArrayList(RECYCLERVIEW_DATA_LIST);
+            myid = getArguments().getString(RECYCLERVIEW_MY_ID);
         }
     }
 
@@ -106,9 +110,14 @@ public class RecommendationFragment extends Fragment {
         myAdapter.setOnItemClickListener(new MyRecommendationRecyclerViewAdapter.IOnItemClickListener() {
             @Override
             public void onItemCLick(int position, video data) {
-                Intent intent = new Intent(getParentFragment().getActivity(), PlayingActivity.class);
-                intent.putExtra(PlayActivity.RECYCLERVIEW_VIDEO_INDEX, position);
-                intent.putExtra(PlayActivity.RECYCLERVIEW_VIDEO_LIST, (Serializable) lst);
+                Intent intent;
+                if (getParentFragment()!=null)
+                    intent = new Intent(getParentFragment().getActivity(), PlayingActivity.class);
+                else
+                    intent = new Intent(getActivity(), PlayingActivity.class);
+                intent.putExtra(PlayingActivity.RECYCLERVIEW_VIDEO_INDEX, position);
+                intent.putExtra(PlayingActivity.RECYCLERVIEW_VIDEO_LIST, (Serializable) lst);
+                intent.putExtra(PlayingActivity.MY_ID_SAVE_KEY,myid);
                 startActivity(intent);
             }
 
@@ -135,7 +144,14 @@ public class RecommendationFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
             recyclerView.setAdapter(new HorizontalListAdapter(TopicSet.getData()));
         }
-        getData(ids);
+        if(ids!=null) {
+            getData(ids);
+            recomm.findViewById(R.id.nogz).setVisibility(View.GONE);
+            recomm.findViewById(R.id.list).setVisibility(View.VISIBLE);
+        } else {
+            recomm.findViewById(R.id.nogz).setVisibility(View.VISIBLE);
+            recomm.findViewById(R.id.list).setVisibility(View.GONE);
+        }
         return recomm;
     }
 
@@ -144,10 +160,21 @@ public class RecommendationFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
-                List<VideoInfoBean> messages = GetMessageFromRemote(studentIds);
-                if(messages !=null) {
-                    lst = messages;
-                    mHandler.sendEmptyMessage(100);
+                List<VideoInfoBean> messages = null;
+                if (studentIds.isEmpty())
+                    messages = GetMessageFromRemote(null);
+                    if (messages != null) {
+                        lst = messages;
+                        mHandler.sendEmptyMessage(100);
+                    }
+                else {
+                    for (int i = 0; i < studentIds.size(); i++) {
+                        messages = GetMessageFromRemote(studentIds.get(i));
+                        if (messages != null) {
+                            lst.addAll(messages);
+                            mHandler.sendEmptyMessage(100);
+                        }
+                    }
                 }
             }
         });
@@ -155,18 +182,11 @@ public class RecommendationFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private List<VideoInfoBean> GetMessageFromRemote(List<String> studentIds)
+    private List<VideoInfoBean> GetMessageFromRemote(String studentId)
     {
         String urlStr = Constants.BASE_URL+"video";
-        if(!studentIds.isEmpty()) {
-            for(int i = 0;i<studentIds.size();i++) {
-                if(i!=0) {
-                    urlStr += "|";
-                }else {
-                    urlStr += "?";
-                }
-                urlStr += "student_id=" + studentIds.get(i);
-            }
+        if(studentId!=null) {
+            urlStr += "?student_id="+studentId;
         }
         VideoListResponse messages = null;
         try {

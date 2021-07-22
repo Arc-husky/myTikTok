@@ -1,2 +1,3 @@
 rootProject.name = "MainActicity"
 include ':app'
+include ':java'

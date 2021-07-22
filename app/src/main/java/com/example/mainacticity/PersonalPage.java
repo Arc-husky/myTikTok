@@ -24,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -61,9 +62,12 @@ public class PersonalPage extends AppCompatActivity {
         myAdapter.setOnItemClickListener(new MyRecommendationRecyclerViewAdapter.IOnItemClickListener() {
             @Override
             public void onItemCLick(int position, video data) {
-//                Intent intent = new Intent(MainActivity.class,PlayActivity.class);
-//                intent.setData(data.uri);
-//                startActivity(intent);
+                Intent intent;
+                intent = new Intent(PersonalPage.this, PlayingActivity.class);
+                intent.putExtra(PlayingActivity.RECYCLERVIEW_VIDEO_INDEX, position);
+                intent.putExtra(PlayingActivity.RECYCLERVIEW_VIDEO_LIST, (Serializable) videoList);
+                intent.putExtra(PlayingActivity.MY_ID_SAVE_KEY,MY_ID);
+                startActivity(intent);
             }
 
             @Override

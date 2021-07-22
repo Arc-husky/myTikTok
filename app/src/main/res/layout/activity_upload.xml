@@ -33,7 +33,6 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/material_on_background_emphasis_high_type"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

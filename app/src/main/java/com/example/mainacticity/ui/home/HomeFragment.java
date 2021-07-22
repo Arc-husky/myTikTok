@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
     private int PAGE_COUNT = 2;
     private List<Fragment> mFragmentList = new ArrayList<Fragment>();
     private String MY_ID;
-    private ArrayList<String> idList = new ArrayList<>();
+    private ArrayList<String> idList;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -88,11 +88,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void initViews() {
-        RecommendationFragment fragment = RecommendationFragment.newInstance(2,idList);
-        RecommendationFragment fragment1 = RecommendationFragment.newInstance(2,idList);
+        RecommendationFragment fragment = RecommendationFragment.newInstance(2,new ArrayList<>(),MY_ID);
+        RecommendationFragment fragment1;
+        if(idList.isEmpty()) {
+            fragment1 = RecommendationFragment.newInstance(2,new ArrayList<>(),MY_ID);
+        }else {
+            fragment1 = RecommendationFragment.newInstance(2,new ArrayList<>(),MY_ID);
+        }
         //给FragmentList添加数据
-        mFragmentList.add(fragment);
         mFragmentList.add(fragment1);
+        mFragmentList.add(fragment);
     }
 
     private void showPopupWindow() {
@@ -136,6 +141,7 @@ public class HomeFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         MY_ID = ((MainActivity)context).getMY_ID();
+        idList = ((MainActivity) context).getGzid();
     }
 
 }

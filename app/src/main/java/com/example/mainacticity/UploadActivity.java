@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mainacticity.model.UploadResponse;
 
 import java.io.InputStream;
+import java.net.URL;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -37,12 +39,14 @@ public class UploadActivity extends AppCompatActivity {
     private Uri coverImageUri;
     private Uri videoUri;
     private Drawable coverSD;
+    private ImageButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
         initNetwork();
+        button = findViewById(R.id.chooseImage);
         findViewById(R.id.chooseImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +69,10 @@ public class UploadActivity extends AppCompatActivity {
                 videoUri = data.getData();
                 //coverSD.setImageURI(coverImageUri);
                 //TODO: select the cover image
+                String ImagePath = CoverCapture.getCover(videoUri.toString());
+                coverImageUri = Uri.parse(ImagePath);
+                coverSD = LoadImageFromWebOperations(coverImageUri.toString());
+                button.setImageDrawable(coverSD);
                 if (videoUri != null) {
                     Log.d(TAG, "pick video " + videoUri.toString());
                 } else {
@@ -144,5 +152,15 @@ public class UploadActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return data;
+    }
+    private Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            System.out.println("Exc=" + e);
+            return null;
+        }
     }
 }
