@@ -118,6 +118,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UploadActivity.class);
+                intent.putExtra(MainActivity.MY_ID_SAVE_KEY,MY_ID);
                 startActivity(intent);
             }
         });
@@ -149,6 +150,7 @@ public class HomeFragment extends Fragment {
 
     private void recordVideo() {
         Intent intent = new Intent(getActivity(), RecordActivity.class);
+        intent.putExtra(MainActivity.MY_ID_SAVE_KEY,MY_ID);
         startActivity(intent);
     }
 

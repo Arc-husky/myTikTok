@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_upload);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        navController.navigate(R.id.navigation_notifications);
         if (MY_ID == null) {
             Intent intent = new Intent(MainActivity.this, loginActivity.class);
             startActivityForResult(intent, 101);
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void recordVideo() {
         Intent intent = new Intent(this, RecordActivity.class);
+        intent.putExtra(MY_ID_SAVE_KEY,MY_ID);
         startActivity(intent);
     }
 

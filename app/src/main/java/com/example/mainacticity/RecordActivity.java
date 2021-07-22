@@ -31,6 +31,7 @@ public class RecordActivity extends AppCompatActivity implements SurfaceHolder.C
     private SurfaceHolder mHolder;
     private String mp4Path = "";
     private boolean isRecording = false;
+    private String MY_ID;
     Thread mThread;
     private long currentValue = 0;
     private long beginValue;
@@ -47,6 +48,7 @@ public class RecordActivity extends AppCompatActivity implements SurfaceHolder.C
                 rbtn.setImageResource(R.drawable.circle);
                 @SuppressLint("HandlerLeak") Intent intent = new Intent(RecordActivity.this,UploadActivity.class);
                 intent.putExtra(UploadActivity.VIDEO_OUTER_PATH, mp4Path);
+                intent.putExtra(MainActivity.MY_ID_SAVE_KEY,MY_ID);
                 startActivity(intent);
 //                finish();
             }
@@ -62,6 +64,8 @@ public class RecordActivity extends AppCompatActivity implements SurfaceHolder.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
+        Intent intent = getIntent();
+        MY_ID = intent.getStringExtra(MainActivity.MY_ID_SAVE_KEY);
         bar = findViewById(R.id.barStroke);
         bar.setMax(15*1000);
         rbtn = findViewById(R.id.recordbtn);
