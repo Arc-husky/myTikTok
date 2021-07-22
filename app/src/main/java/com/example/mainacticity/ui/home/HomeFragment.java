@@ -1,6 +1,7 @@
 package com.example.mainacticity.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.mainacticity.MainActivity;
 import com.example.mainacticity.R;
 import com.example.mainacticity.RecommendationFragment;
+import com.example.mainacticity.UploadActivity;
 import com.example.mainacticity.databinding.FragmentHomeBinding;
-import com.example.mainacticity.placeholder.video;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +99,16 @@ public class HomeFragment extends Fragment {
         View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.upload, null);
         mPopWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         mPopWindow.showAsDropDown(getView().findViewById(R.id.fab));
+        View upload = contentView.findViewById(R.id.imageView2);
+        View shoot = contentView.findViewById(R.id.imageView3);
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UploadActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public class FragmentAdapter extends FragmentPagerAdapter {

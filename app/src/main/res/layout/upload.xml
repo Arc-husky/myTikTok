@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:paddingBottom="2dp">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:paddingVertical="2dp"
         android:src="@mipmap/upload" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
