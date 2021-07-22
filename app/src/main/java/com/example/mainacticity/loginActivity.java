@@ -30,7 +30,7 @@ public class loginActivity extends AppCompatActivity {
             editor.putString(MainActivity.MY_ID_SAVE_KEY, content.toString());
             editor.apply();
             Intent intent = new Intent();
-            intent.putExtra(MainActivity.MY_ID_SAVE_KEY,content);
+            intent.putExtra(MainActivity.MY_ID_SAVE_KEY,content.toString());
             setResult(RESULT_OK,intent);
             finish();
         }else {

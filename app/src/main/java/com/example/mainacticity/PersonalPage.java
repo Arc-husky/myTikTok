@@ -94,6 +94,7 @@ public class PersonalPage extends AppCompatActivity {
             public void run() {
                 List<VideoInfoBean> messages = GetMessageFromRemote(studentIds);
                 if(messages !=null) {
+                    videoList.addAll(messages);
                     new Handler(getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {

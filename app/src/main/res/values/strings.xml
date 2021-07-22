@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MainActicity</string>
+    <string name="app_name">寸光视频</string>
     <string name="title_activity_upload">MainActivity</string>
     <string name="title_home">主页</string>
     <string name="title_dashboard">上传</string>

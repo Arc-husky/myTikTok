@@ -84,10 +84,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (101 == requestCode) {
-            if (resultCode == Activity.RESULT_OK) {
-                MY_ID = data.getStringExtra(MY_ID_SAVE_KEY);
-            }
+        if (resultCode == Activity.RESULT_OK) {
+            MY_ID = data.getStringExtra(MY_ID_SAVE_KEY);
+            navController.navigate(R.id.navigation_home);
         }
     }
 
