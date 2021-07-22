@@ -1,14 +1,19 @@
 package com.example.mainacticity.ui.home;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -17,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.mainacticity.MainActivity;
 import com.example.mainacticity.R;
 import com.example.mainacticity.RecommendationFragment;
+import com.example.mainacticity.RecordActivity;
 import com.example.mainacticity.UploadActivity;
 import com.example.mainacticity.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +38,7 @@ public class HomeFragment extends Fragment {
     private List<Fragment> mFragmentList = new ArrayList<Fragment>();
     private String MY_ID;
     private ArrayList<String> idList;
+    private final static int PERMISSION_REQUEST_CODE = 1001;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -114,6 +121,52 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        shoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestPermission();
+            }
+        });
+    }
+
+    private void requestPermission() {
+        boolean hasCameraPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        boolean hasAudioPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        if (hasCameraPermission && hasAudioPermission) {
+            recordVideo();
+        } else {
+            List<String> permission = new ArrayList<String>();
+            if (!hasCameraPermission) {
+                permission.add(Manifest.permission.CAMERA);
+            }
+            if (!hasAudioPermission) {
+                permission.add(Manifest.permission.RECORD_AUDIO);
+            }
+            ActivityCompat.requestPermissions(getActivity(), permission.toArray(new String[permission.size()]), PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+    private void recordVideo() {
+        Intent intent = new Intent(getActivity(), RecordActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasPermission = true;
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                hasPermission = false;
+                break;
+            }
+        }
+        if (hasPermission) {
+            recordVideo();
+        } else {
+            Toast.makeText(getActivity(), "权限获取失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public class FragmentAdapter extends FragmentPagerAdapter {

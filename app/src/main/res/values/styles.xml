@@ -5,4 +5,21 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <declare-styleable name="RoundProgressBar">
+        <attr name="backColor" format="color|reference"/>
+        <attr name="frontColor" format="color|reference"/>
+        <attr name="textColor" format="color|reference"/>
+        <attr name="textSize" format="dimension" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="mode">
+            <enum name="STROKE" value="0" />
+            <enum name="STROKE_TEXT" value="1" />
+            <enum name="FILL" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>

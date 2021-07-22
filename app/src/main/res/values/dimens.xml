@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--环形字体尺寸-->
+    <dimen name="round_progress_text_size">15sp</dimen>
+    <!--环形边框宽度-->
+    <dimen name="round_progress_border_width">5dp</dimen>
 </resources>

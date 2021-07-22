@@ -35,6 +35,7 @@ public class UploadActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_COVER_IMAGE = 101;
     private static final String COVER_IMAGE_TYPE = "image/*";
     private static final String VIDEO_TYPE = "video/*";
+    public static final String VIDEO_OUTER_PATH = "video-path";
     private IApi api;
     private Uri coverImageUri;
     private Uri videoUri;
