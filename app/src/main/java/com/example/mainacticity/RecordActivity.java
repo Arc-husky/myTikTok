@@ -1,14 +1,7 @@
 package com.example.mainacticity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
@@ -20,18 +13,15 @@ import android.os.Message;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class RecordActivity extends AppCompatActivity implements SurfaceHolder.Callback{
 
@@ -56,9 +46,9 @@ public class RecordActivity extends AppCompatActivity implements SurfaceHolder.C
                 bar.setVisibility(View.GONE);
                 rbtn.setImageResource(R.drawable.circle);
                 @SuppressLint("HandlerLeak") Intent intent = new Intent(RecordActivity.this,UploadActivity.class);
-                intent.putExtra(UploadActivity.VIDEO_OUTER_PATH,mp4Path);
+                intent.putExtra(UploadActivity.VIDEO_OUTER_PATH, mp4Path);
                 startActivity(intent);
-                finish();
+//                finish();
             }
         }
     };

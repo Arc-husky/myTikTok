@@ -1,10 +1,10 @@
 package com.example.mainacticity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 
 import java.io.File;
@@ -12,13 +12,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static android.provider.MediaStore.Video.Thumbnails.MINI_KIND;
-
 public class CoverCapture {
 
-    public static String getCover(String videoPath) {
-        Bitmap bitmap = createBitmapFromVideoPath(videoPath,540,960);
-        return bitmap2File(bitmap,"VideoCaputer_cover");
+    public static String getCover(Context context, String videoPath, String file_path) {
+        Bitmap bitmap = getVideoThumbnail(videoPath, 540, 960, 1);
+        return bitmap2File(context, bitmap, file_path);
     }
 
     private static Bitmap getVideoThumbnail(String videoPath, int width, int height, int kind) {
@@ -31,29 +29,24 @@ public class CoverCapture {
         }
         return bitmap;
     }
+
     /**
-
      * Bitmap保存成File
-
      *
-
-     * @param bitmap input bitmap
-
-     * @param name output file's name
-
+     * @param bitmap    input bitmap
+     * @param file_path output file's path
      * @return String output file's path
-
      */
 
-    private static String bitmap2File(Bitmap bitmap, String name) {
+    private static String bitmap2File(Context context, Bitmap bitmap, String file_path) {
 
-        File f = new File(Environment.getExternalStorageDirectory() + name +  ".jpg");
+        File f = new File(file_path);
 
-        if  (f.exists()) f.delete();
+        if (f.exists()) f.delete();
 
         FileOutputStream fOut = null;
 
-        try  {
+        try {
 
             fOut = new FileOutputStream(f);
 
@@ -101,6 +94,7 @@ public class CoverCapture {
         }
         return bitmap;
     }
+
 
 
 }
