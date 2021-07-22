@@ -1,6 +1,8 @@
 package com.example.mainacticity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -128,4 +130,26 @@ public class MainActivity extends AppCompatActivity {
         }
         editor.apply();
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasPermission = true;
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                hasPermission = false;
+                break;
+            }
+        }
+        if (hasPermission) {
+            recordVideo();
+        } else {
+            Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void recordVideo() {
+        Intent intent = new Intent(this, RecordActivity.class);
+        startActivity(intent);
+    }
+
 }

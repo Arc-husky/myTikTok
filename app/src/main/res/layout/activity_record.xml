@@ -38,4 +38,14 @@
             />
     </RelativeLayout>
 
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@mipmap/arrow_reverse"
+        android:background="@android:color/transparent"
+        android:layout_margin="20dp"
+        android:onClick="exit"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

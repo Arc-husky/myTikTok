@@ -58,9 +58,14 @@ public class RecordActivity extends AppCompatActivity implements SurfaceHolder.C
                 @SuppressLint("HandlerLeak") Intent intent = new Intent(RecordActivity.this,UploadActivity.class);
                 intent.putExtra(UploadActivity.VIDEO_OUTER_PATH,mp4Path);
                 startActivity(intent);
+                finish();
             }
         }
     };
+
+    public void exit(View view) {
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

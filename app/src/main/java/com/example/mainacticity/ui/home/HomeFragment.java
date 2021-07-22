@@ -152,23 +152,6 @@ public class HomeFragment extends Fragment {
         startActivity(intent);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean hasPermission = true;
-        for (int grantResult : grantResults) {
-            if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                hasPermission = false;
-                break;
-            }
-        }
-        if (hasPermission) {
-            recordVideo();
-        } else {
-            Toast.makeText(getActivity(), "权限获取失败", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public class FragmentAdapter extends FragmentPagerAdapter {
 
         List<Fragment> fragmentList = new ArrayList<Fragment>();
