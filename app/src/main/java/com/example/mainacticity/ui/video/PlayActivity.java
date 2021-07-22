@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mainacticity.R;
-import com.example.mainacticity.VideoInfoBean;
+import com.example.mainacticity.model.VideoInfoBean;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;

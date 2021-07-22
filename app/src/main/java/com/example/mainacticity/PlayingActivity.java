@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mainacticity.model.VideoInfoBean;
 import com.example.mainacticity.ui.video.OnViewPagerListener;
 import com.example.mainacticity.ui.video.ViewPagerLayoutManager;
 

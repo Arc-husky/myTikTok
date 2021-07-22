@@ -1,4 +1,4 @@
-package com.example.mainacticity;
+package com.example.mainacticity.model;
 
 import com.google.gson.annotations.SerializedName;
 

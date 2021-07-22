@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mainacticity.model.VideoInfoBean;
+import com.example.mainacticity.model.VideoListResponse;
 import com.example.mainacticity.placeholder.TopicSet;
 import com.example.mainacticity.placeholder.video;
 import com.example.mainacticity.ui.video.PlayActivity;

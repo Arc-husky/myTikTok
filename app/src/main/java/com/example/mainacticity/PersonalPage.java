@@ -1,11 +1,5 @@
 package com.example.mainacticity;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +9,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mainacticity.model.VideoInfoBean;
+import com.example.mainacticity.model.VideoListResponse;
 import com.example.mainacticity.placeholder.video;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
