@@ -50,7 +50,7 @@ public class RecordActivity extends AppCompatActivity implements SurfaceHolder.C
                 intent.putExtra(UploadActivity.VIDEO_OUTER_PATH, mp4Path);
                 intent.putExtra(MainActivity.MY_ID_SAVE_KEY,MY_ID);
                 startActivity(intent);
-//                finish();
+                finish();
             }
         }
     };
