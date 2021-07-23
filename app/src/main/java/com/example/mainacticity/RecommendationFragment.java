@@ -60,6 +60,7 @@ public class RecommendationFragment extends Fragment {
                 case 100:
                     for(int i = 0;i<lst.size();i++) {
                         VideoInfoBean data = lst.get(i);
+
                         myAdapter.addData(myAdapter.getItemCount(),new video(data.getStudentId(),
                                 data.getUserName(),
                                 data.getImageUrl(),

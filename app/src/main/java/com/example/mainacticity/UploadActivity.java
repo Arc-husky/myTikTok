@@ -63,12 +63,15 @@ public class UploadActivity extends AppCompatActivity {
     private static final String MY_ID_SAVE_KEY = "my-id";
     private String MY_ID;
     private File destinationDirectory;
+    ImageButton uploadbtn;
     Handler mhandler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 100:
+//                    Toast.makeText(UploadActivity.this,"视频压缩完成",Toast.LENGTH_SHORT);
+                    uploadbtn.setVisibility(View.VISIBLE);
                     videoUri = getUriForFile(UploadActivity.this, (String) (msg.obj));
                     break;
                 default:
@@ -93,6 +96,13 @@ public class UploadActivity extends AppCompatActivity {
         String str = intent.getStringExtra(VIDEO_OUTER_PATH);
         MY_ID = intent.getStringExtra(MY_ID_SAVE_KEY);
         destinationDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        uploadbtn = findViewById(R.id.done);
+        uploadbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
         if (str != null) {
             absolute_Path = intent.getStringExtra(VIDEO_OUTER_PATH);
 
@@ -124,6 +134,7 @@ public class UploadActivity extends AppCompatActivity {
                     }
                 }
             }).start();
+            uploadbtn.setVisibility(View.GONE);
             //videoUri = getUriForFile(this, com);
             coverImageUri = getUriForFile(CoverCapture.getCover(this, absolute_Path, getOutputMediaPath()));
 
@@ -143,12 +154,6 @@ public class UploadActivity extends AppCompatActivity {
                 getFile(REQUEST_CODE_VIDEO, VIDEO_TYPE, "选择视频");
             }
 
-        });
-        findViewById(R.id.done).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submit();
-            }
         });
     }
 
