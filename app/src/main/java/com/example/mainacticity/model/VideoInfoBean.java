@@ -11,7 +11,7 @@ public class VideoInfoBean implements Serializable {
     private String Id;
     @SerializedName("student_id")
     private String studentId;
-    @SerializedName("user_mame")
+    @SerializedName("user_name")
     private String userName;
     @SerializedName("image_url")
     private String imageUrl;

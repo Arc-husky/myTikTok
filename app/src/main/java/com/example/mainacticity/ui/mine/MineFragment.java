@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.mainacticity.Constants;
 import com.example.mainacticity.MainActivity;
 import com.example.mainacticity.My_ImageViewPlus;
 import com.example.mainacticity.PersonalPage;
@@ -38,7 +39,9 @@ public class MineFragment extends Fragment {
 
         ImageButton personalbtn = root.findViewById(R.id.personalbtn);
         TextView idView = root.findViewById(R.id.userId);
+        TextView usernameView = root.findViewById(R.id.username);
         idView.setText(TEXT_BEGIN+MY_ID);
+        usernameView.setText(Constants.USER_NAME);
         My_ImageViewPlus head = root.findViewById(R.id.head2);
         head.setOnClickListener(new View.OnClickListener() {
             @Override

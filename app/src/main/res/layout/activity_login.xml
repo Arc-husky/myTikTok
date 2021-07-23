@@ -40,6 +40,17 @@
         android:background="@drawable/round_editor"
         android:hint="请输入您的ID"
         android:paddingHorizontal="20dp"/>
+    <EditText
+        android:id="@+id/usernameText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="300dp"
+        android:layout_marginTop="280dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_editor"
+        android:hint="请输入您的用户名"
+        android:paddingHorizontal="20dp"/>
     <ImageButton
         android:id="@+id/loginbtn"
         android:layout_width="300dp"
@@ -47,7 +58,7 @@
         android:scaleType="centerInside"
         android:background="@android:color/transparent"
         android:src="@mipmap/login"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="140dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/idText"

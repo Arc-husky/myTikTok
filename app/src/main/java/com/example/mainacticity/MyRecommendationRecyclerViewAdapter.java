@@ -54,18 +54,21 @@ public class MyRecommendationRecyclerViewAdapter extends RecyclerView.Adapter<My
             CornerTransform transformation = new CornerTransform(mfragment.getContext(), dip2px(mfragment.getContext(), 10));
             Glide.with(mfragment)
                     .load(data.cover)
+                    .placeholder(R.drawable.waiting)
                     .transform(transformation)
                     .into(holder.cover);
         }else if(mContext!=null){
             CornerTransform transformation = new CornerTransform(mContext, dip2px(mContext, 10));
             Glide.with(mContext)
                     .load(data.cover)
+                    .placeholder(R.drawable.waiting)
                     .transform(transformation)
                     .into(holder.cover);
         }else {
             holder.cover.setImageResource(R.mipmap.cover);
         }
         holder.likeNumber.setText(data.likeNumber);
+        holder.username.setText(data.userName);
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,12 +150,14 @@ public class MyRecommendationRecyclerViewAdapter extends RecyclerView.Adapter<My
         ImageView cover;
         TextView likeNumber;
         View contentView;
+        TextView username;
 
         public ViewHolder(View v) {
             super(v);
             contentView = v;
             cover = v.findViewById(R.id.cover);
             likeNumber = v.findViewById(R.id.Number);
+            username=v.findViewById(R.id.usernamex);
         }
 
         public void setOnClickListener(View.OnClickListener listener) {

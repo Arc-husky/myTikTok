@@ -21,6 +21,8 @@ import com.example.mainacticity.placeholder.video;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,7 +50,8 @@ public class PersonalPage extends AppCompatActivity {
         MY_ID = intent.getStringExtra(PERSON_ID);
         TextView idView = findViewById(R.id.userId1);
         idView.setText(TEXT_BEGIN+MY_ID);
-
+        TextView usernameView = findViewById(R.id.username1);
+        usernameView.setText(Constants.USER_NAME);
         ImageButton exitBtn = findViewById(R.id.exitPersonal);
         exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override

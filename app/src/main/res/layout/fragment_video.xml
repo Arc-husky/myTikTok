@@ -35,4 +35,16 @@
         app:layout_constraintTop_toTopOf="@id/Number"
         android:src="@mipmap/heart"
         />
+
+    <TextView
+        android:id="@+id/usernamex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="mo_ren"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

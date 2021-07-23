@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private String MY_ID = null;
     public static final String ID_SAVED = "id_saved";
+    public static final String USERNAME_SAVED_KEY = "user-name";
     public static final String MY_ID_SAVE_KEY = "my-id";
     private List<video> videoList = new ArrayList<>();
     public final static String MY_GZ_LIST = "gz-list";
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sp = MainActivity.this.getSharedPreferences(ID_SAVED, MODE_PRIVATE);
         MY_ID = sp.getString(MY_ID_SAVE_KEY, null);
+        Constants.USER_NAME = sp.getString(USERNAME_SAVED_KEY,null);
 //        mHandler.sendEmptyMessage(100);
         Window window = getWindow();
         changeStatusBarTextColor(window, true);
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_upload);
         NavigationUI.setupWithNavController(binding.navView, navController);
         navController.navigate(R.id.navigation_notifications);
-        if (MY_ID == null) {
+        if (MY_ID == null || Constants.USER_NAME==null) {
             Intent intent = new Intent(MainActivity.this, loginActivity.class);
             startActivityForResult(intent, 101);
         }
