@@ -85,13 +85,11 @@ public class PlayingActivity extends AppCompatActivity {
 
     private void initListener() {
         mLayoutManager.setOnViewPagerListener(new OnViewPagerListener() {
-
             @Override
             public void onInitComplete() {
                 Log.e(TAG, "onInitComplete");
                 playVideo(0);
             }
-
             @Override
             public void onPageRelease(boolean isNext, int position) {
                 Log.e(TAG, "释放位置:" + position + " 下一页:" + isNext);
@@ -103,7 +101,6 @@ public class PlayingActivity extends AppCompatActivity {
                 }
                 releaseVideo(index);
             }
-
             @Override
             public void onPageSelected(int position, boolean isBottom) {
                 Log.e(TAG, "选中位置:" + position + "  是否是滑动到底部:" + isBottom);

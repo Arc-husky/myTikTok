@@ -39,6 +39,7 @@ public class RecordActivity extends AppCompatActivity implements SurfaceHolder.C
     ImageButton rbtn;
     private boolean forceBreak=false;
     Handler mHandler = new Handler() {
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -46,7 +47,8 @@ public class RecordActivity extends AppCompatActivity implements SurfaceHolder.C
                 bar.setValue(0);
                 bar.setVisibility(View.GONE);
                 rbtn.setImageResource(R.drawable.circle);
-                @SuppressLint("HandlerLeak") Intent intent = new Intent(RecordActivity.this,UploadActivity.class);
+                @SuppressLint("HandlerLeak") Intent intent
+                        = new Intent(RecordActivity.this,UploadActivity.class);
                 intent.putExtra(UploadActivity.VIDEO_OUTER_PATH, mp4Path);
                 intent.putExtra(MainActivity.MY_ID_SAVE_KEY,MY_ID);
                 startActivity(intent);

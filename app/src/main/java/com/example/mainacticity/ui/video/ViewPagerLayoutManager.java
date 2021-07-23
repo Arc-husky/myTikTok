@@ -13,7 +13,8 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
     private OnViewPagerListener mOnViewPagerListener;
     private RecyclerView mRecyclerView;
     private int mDrift;//位移，用来判断移动方向
-    private RecyclerView.OnChildAttachStateChangeListener mChildAttachStateChangeListener = new RecyclerView.OnChildAttachStateChangeListener() {
+    private RecyclerView.OnChildAttachStateChangeListener mChildAttachStateChangeListener
+            = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override
         public void onChildViewAttachedToWindow(View view) {
             if (mOnViewPagerListener != null && getChildCount() == 1) {
