@@ -36,6 +36,8 @@ import java.util.List;
 public class PersonalPage extends AppCompatActivity {
     private final int mColumnCount = 2;
     public static final String PERSON_ID = "person-id";
+    public static final String USERNAME_KEY = "user-name";
+    private String MY_USERNAME = null;
     private String MY_ID = "";
     private final String TEXT_BEGIN = "ID:";
     private List<VideoInfoBean> videoList;
@@ -48,10 +50,12 @@ public class PersonalPage extends AppCompatActivity {
 
         Intent intent = getIntent();
         MY_ID = intent.getStringExtra(PERSON_ID);
+        MY_USERNAME = intent.getStringExtra(USERNAME_KEY);
+        if(MY_USERNAME==null) MY_USERNAME = Constants.USER_NAME;
         TextView idView = findViewById(R.id.userId1);
         idView.setText(TEXT_BEGIN+MY_ID);
         TextView usernameView = findViewById(R.id.username1);
-        usernameView.setText(Constants.USER_NAME);
+        usernameView.setText(MY_USERNAME);
         ImageButton exitBtn = findViewById(R.id.exitPersonal);
         exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -232,6 +232,7 @@ public class PlayingActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(PlayingActivity.this, PersonalPage.class);
                     intent.putExtra(PersonalPage.PERSON_ID,vinfo.getStudentId());
+                    intent.putExtra(PersonalPage.USERNAME_KEY,vinfo.getUserName());
                     startActivity(intent);
                 }
             });
