@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -17,15 +19,19 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.mainacticity.model.UploadResponse;
+import com.iceteck.silicompressorr.SiliCompressor;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,7 +62,20 @@ public class UploadActivity extends AppCompatActivity {
     private String absolute_Path;
     private static final String MY_ID_SAVE_KEY = "my-id";
     private String MY_ID;
-
+    private File destinationDirectory;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 100:
+                    videoUri = getUriForFile(UploadActivity.this, (String) (msg.obj));
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
     public static Uri getUriForFile(Context context, String path) {
         if (Build.VERSION.SDK_INT >= 24) {
             return FileProvider.getUriForFile(context.getApplicationContext(), context.getApplicationContext().getPackageName() + ".fileprovider", new File(path));
@@ -73,10 +92,39 @@ public class UploadActivity extends AppCompatActivity {
         button = findViewById(R.id.chooseImage);
         String str = intent.getStringExtra(VIDEO_OUTER_PATH);
         MY_ID = intent.getStringExtra(MY_ID_SAVE_KEY);
+        destinationDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         if (str != null) {
             absolute_Path = intent.getStringExtra(VIDEO_OUTER_PATH);
-            videoUri = getUriForFile(this, absolute_Path);
 
+            videoUri = getUriForFile(this, absolute_Path);
+//            String filePath = SiliCompressor.with(this).compress(videoUri., destinationDirectory);
+//            videoUri = getUriForFile(this, filePath);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        /**
+                         * 视频压缩
+                         * 第一个参数:视频源文件路径
+                         * 第二个参数:压缩后视频保存的路径
+                         */
+                       String comPressPath = SiliCompressor.with(UploadActivity.this).compressVideo(absolute_Path, (destinationDirectory).getAbsolutePath());
+//                    if (!StringUtil.isEmpty(comPressPath)) {
+//                        notCompressedVideo.setCompressPath(comPressPath);
+//                        compressVideo();
+//                    } else {
+//                        stopCompress("失败");
+//                    }
+                        Message message=new Message();
+                        message.what=100;
+                        message.obj=comPressPath;//从服务器返回的数据
+                        mhandler.sendMessage(message);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+            //videoUri = getUriForFile(this, com);
             coverImageUri = getUriForFile(CoverCapture.getCover(this, absolute_Path, getOutputMediaPath()));
 
             Glide.with(this).load(coverImageUri).into(button);
@@ -186,18 +234,23 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     private void submit() {
+        LottieAnimationView loAniView =findViewById(R.id.animation_view);
+        loAniView.setAlpha(1f);
         byte[] coverImageData = readDataFromUri(coverImageUri);
         byte[] videoData = readDataFromUri(videoUri);
         if (videoData == null || videoData.length == 0) {
             Toast.makeText(this, "视频不存在", Toast.LENGTH_SHORT).show();
+            loAniView.setAlpha(0f);
             return;
         }
         if (coverImageData == null || coverImageData.length == 0) {
             Toast.makeText(this, "封面不存在", Toast.LENGTH_SHORT).show();
+            loAniView.setAlpha(0f);
             return;
         }
         if (coverImageData.length >= MAX_COVER_SIZE || videoData.length >= MAX_VIDEO_SIZE) {
             Toast.makeText(this, "文件过大", Toast.LENGTH_SHORT).show();
+            loAniView.setAlpha(0f);
             return;
         }
         MultipartBody.Part video = MultipartBody.Part.createFormData("video", "upload.mp4", RequestBody.create(MediaType.parse("multipart/from_data"), videoData));
@@ -207,14 +260,20 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
 
-                Toast.makeText(getBaseContext(), "upload succeeded", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", "Upload succeeded");
-                    finish();
-
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getBaseContext(), "upload failed", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getBaseContext(), "upload succeeded", Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "Upload succeeded");
+                    }
+                finish();
             }
+
+
 
             @Override
             public void onFailure(Call<UploadResponse> call, Throwable t) {
+                loAniView.setAlpha(0f);
                 Toast.makeText(getBaseContext(), "upload failed", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
