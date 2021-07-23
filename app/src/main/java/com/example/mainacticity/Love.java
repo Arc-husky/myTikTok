@@ -46,6 +46,7 @@ public class Love extends RelativeLayout {
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        //双击检测，对比第二次点击和第一次点击的时间，如果小于0.5s则为双击
         System.arraycopy(mHits,1,mHits,0,mHits.length-1);
         mHits[mHits.length - 1] = SystemClock.uptimeMillis();
         if (mHits[0] >= (SystemClock.uptimeMillis() - 500)) {

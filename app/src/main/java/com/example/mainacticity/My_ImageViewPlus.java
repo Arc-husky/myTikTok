@@ -42,7 +42,8 @@ public class My_ImageViewPlus extends androidx.appcompat.widget.AppCompatImageVi
                 mShader = new BitmapShader(mRawBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
             }
             if (mShader != null){
-                mMatrix.setScale((dstWidth - mBorderWidth * 2) / rawBitmap.getWidth(), (dstHeight - mBorderWidth * 2) / rawBitmap.getHeight());
+                mMatrix.setScale((dstWidth - mBorderWidth * 2) / rawBitmap.getWidth(),
+                        (dstHeight - mBorderWidth * 2) / rawBitmap.getHeight());
                 mShader.setLocalMatrix(mMatrix);
             }
             mPaintBitmap.setShader(mShader);
@@ -52,7 +53,8 @@ public class My_ImageViewPlus extends androidx.appcompat.widget.AppCompatImageVi
             float radius = viewMinSize / 2.0f;
             canvas.drawCircle(radius, radius, radius - mBorderWidth / 2.0f, mPaintBorder);
             canvas.translate(mBorderWidth, mBorderWidth);
-            canvas.drawCircle(radius - mBorderWidth, radius - mBorderWidth, radius - mBorderWidth, mPaintBitmap);
+            canvas.drawCircle(radius - mBorderWidth, radius - mBorderWidth,
+                    radius - mBorderWidth, mPaintBitmap);
         } else {
             super.onDraw(canvas);
         }
