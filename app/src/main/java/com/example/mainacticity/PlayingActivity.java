@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mainacticity.model.VideoInfoBean;
 import com.example.mainacticity.ui.video.OnViewPagerListener;
 import com.example.mainacticity.ui.video.ViewPagerLayoutManager;
+
+import org.w3c.dom.Text;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -204,6 +207,7 @@ public class PlayingActivity extends AppCompatActivity {
                 holder.gzbtn.setImageResource(R.mipmap.ygzbtn);
                 holder.ygz = true;
             }
+            holder.publishername.setText(videos.get(now_index).getUserName());
             holder.gzbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -263,6 +267,7 @@ public class PlayingActivity extends AppCompatActivity {
             RelativeLayout rootView;
             ImageButton gzbtn,dzbtn;
             My_ImageViewPlus Personalbtn;
+            TextView publishername;
             boolean ygz = false,ydz=false;
             private Handler mHandler = new Handler() {
                 @Override
@@ -285,6 +290,7 @@ public class PlayingActivity extends AppCompatActivity {
                 gzbtn = itemView.findViewById(R.id.gzbtn);
                 Personalbtn = itemView.findViewById(R.id.zztx);
                 dzbtn = itemView.findViewById(R.id.dzbtn);
+                publishername = itemView.findViewById(R.id.idTextView);
             }
         }
     }
